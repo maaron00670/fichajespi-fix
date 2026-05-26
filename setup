@@ -8,7 +8,7 @@ echo "#####################__Actualizando__"
 sudo apt-get update && sudo apt-get -y upgrade
 
 echo "#####################__Clonando repositorio"
-git clone https://github.com/alejandroferrin/fichajespi.git
+git clone https://github.com/maaron00670/fichajespi-fix.git
 
 echo "#####################__Instalando JDK__"
 sudo apt -y install openjdk-11-jdk
