@@ -1,30 +1,41 @@
  #!/bin/bash
  set -e
 
+INSTALL_USER="${SUDO_USER:-$USER}"
+INSTALL_HOME="$(eval echo "~$INSTALL_USER")"
+REPO_DIR="$INSTALL_HOME/fichajespi-fix"
+
  echo "#####################__Creando carpeta database__"
- mkdir -p /home/$USER/database_data
+mkdir -p "$INSTALL_HOME/database_data"
 
 echo "#####################__Actualizando__"
 sudo apt-get update && sudo apt-get -y upgrade
 
 echo "#####################__Clonando repositorio"
-git clone https://github.com/maaron00670/fichajespi-fix.git
+git clone https://github.com/maaron00670/fichajespi-fix.git "$REPO_DIR"
 
-echo "#####################__Instalando JDK__"
-sudo apt -y install openjdk-11-jdk
+echo "#####################__Instalando JDK mas actual en el repositorio__"
+sudo apt -y install openjdk-17-jdk
 
 echo "#####################__Instalando SmartCard Reader__"
 sudo apt-get -y install subversion autoconf debhelper flex libusb-dev libpcsclite-dev libpcsclite1 libccid pcscd pcsc-tools libpcsc-perl libusb-1.0-0-dev libtool libssl-dev cmake checkinstall
 
 echo "#####################__Instalando ACS driver__"
-sudo dpkg -i /home/$USER/fichajespi/DriverACS/libacsccid1_1.1.8-1~bpo10+1_armhf.deb
+sudo dpkg -i "$REPO_DIR/DriverACS/libacsccid1_1.1.8-1~bpo10+1_armhf.deb"
 
 echo "#####################__Instalando Docker__"
-curl -fsSL https://get.docker.com -o get-docker.sh
-sudo sh get-docker.sh
+sudo apt install docker.io -y
+echo "#####################__Activando Docker__"
+sudo systemctl enable --now docker
 echo "#####################__Dando permisos usuario para grupo docker__"
-sudo usermod -aG docker "$USER"
+sudo usermod -aG docker "$INSTALL_USER"
 echo "#####################__Instalando docker-compose__"
+sudo apt install -y ca-certificates curl gnupg lsb-release
+curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+echo \
+  "deb [arch=armhf signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian \
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt update
 sudo apt -y install docker-compose-plugin docker-compose
 
 echo "#####################__Instalando vim__"
@@ -34,7 +45,7 @@ sudo apt -y install realvnc-vnc-server realvnc-vnc-viewer
 
 echo "#####################__Compilando app de escritorio__"
 sudo apt -y install maven
-cd /home/$USER/fichajespi/fichajesPi_desktop
+cd "$REPO_DIR/fichajesPi_desktop"
 mvn clean package
 
 echo "#####################__Configurando servicio pcscd__"
@@ -47,12 +58,10 @@ echo "sudo systemctl start pcscd" | sudo tee -a /etc/rc.local >/dev/null
 echo "exit 0" | sudo tee -a /etc/rc.local >/dev/null
 sudo chmod +x /etc/rc.local
 
-sudo cp /home/$USER/fichajespi/fichajespi.desktop /etc/xdg/autostart/
-
-sudo sed -i '1 s/^/#/' /etc/xdg/lxsession/LXDE-pi/autostart
+sudo cp "$REPO_DIR/fichajespi.desktop" /etc/xdg/autostart/
 
 echo "#####################__Instalando drivers pantalla táctil 3.5__"
-cd /home/$USER/fichajespi
+cd "$REPO_DIR"
 git clone https://github.com/goodtft/LCD-show.git
 chmod -R 755 LCD-show
 cd LCD-show/
