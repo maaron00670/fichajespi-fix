@@ -2,7 +2,7 @@
  set -e
 
  echo "#####################__Creando carpeta database__"
- mkdir -p /home/pi/database_data
+ mkdir -p /home/$USER/database_data
 
 echo "#####################__Actualizando__"
 sudo apt-get update && sudo apt-get -y upgrade
@@ -17,13 +17,13 @@ echo "#####################__Instalando SmartCard Reader__"
 sudo apt-get -y install subversion autoconf debhelper flex libusb-dev libpcsclite-dev libpcsclite1 libccid pcscd pcsc-tools libpcsc-perl libusb-1.0-0-dev libtool libssl-dev cmake checkinstall
 
 echo "#####################__Instalando ACS driver__"
-sudo dpkg -i /home/pi/fichajespi/DriverACS/libacsccid1_1.1.8-1~bpo10+1_armhf.deb
+sudo dpkg -i /home/$USER/fichajespi/DriverACS/libacsccid1_1.1.8-1~bpo10+1_armhf.deb
 
 echo "#####################__Instalando Docker__"
 curl -fsSL https://get.docker.com -o get-docker.sh
 sudo sh get-docker.sh
 echo "#####################__Dando permisos usuario para grupo docker__"
-sudo usermod -aG docker pi
+sudo usermod -aG docker "$USER"
 echo "#####################__Instalando docker-compose__"
 sudo apt -y install docker-compose-plugin docker-compose
 
@@ -34,7 +34,7 @@ sudo apt -y install realvnc-vnc-server realvnc-vnc-viewer
 
 echo "#####################__Compilando app de escritorio__"
 sudo apt -y install maven
-cd /home/pi/fichajespi/fichajesPi_desktop
+cd /home/$USER/fichajespi/fichajesPi_desktop
 mvn clean package
 
 echo "#####################__Configurando servicio pcscd__"
@@ -47,12 +47,12 @@ echo "sudo systemctl start pcscd" | sudo tee -a /etc/rc.local >/dev/null
 echo "exit 0" | sudo tee -a /etc/rc.local >/dev/null
 sudo chmod +x /etc/rc.local
 
-sudo cp /home/pi/fichajespi/fichajespi.desktop /etc/xdg/autostart/
+sudo cp /home/$USER/fichajespi/fichajespi.desktop /etc/xdg/autostart/
 
 sudo sed -i '1 s/^/#/' /etc/xdg/lxsession/LXDE-pi/autostart
 
 echo "#####################__Instalando drivers pantalla táctil 3.5__"
-cd /home/pi/fichajespi
+cd /home/$USER/fichajespi
 git clone https://github.com/goodtft/LCD-show.git
 chmod -R 755 LCD-show
 cd LCD-show/
