@@ -3,7 +3,8 @@ version: '3.1'
 services:
   db:
     container_name: fichajespi_db
-    image: 'linuxserver/mariadb:10.5.13'
+    image: mariadb:10.5
+    platform: linux/arm/v7
     ports:
       - "3306:3306"
     environment:
@@ -50,11 +51,12 @@ services:
 
   phpmyadmin:
     container_name: fichajespi_dbadmin
-    image: phpmyadmin
+    image: linuxserver/phpmyadmin:latest
+    platform: linux/arm/v7
     ports:
       - 81:80
     environment:
       - PMA_ARBITRARY=1
+      - PMA_HOST=db
     restart: always
-
 

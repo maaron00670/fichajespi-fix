@@ -72,9 +72,9 @@ Descomentamos las siguientes líneas e introducimos los parámetros adecuados a 
 
 - Introducimos la microSD en la RaspberryPi y la encendemos.
 
-- Escribimos en la terminal `ssh pi@192.168.0.10` para conectarnos remotamente a la RaspberryPi que debe estar conectada a la red. La ip la debemos sustituir por la que hayamos indicado en el paso 5.
+- Escribimos en la terminal `ssh $USER@192.168.0.10` para conectarnos remotamente a la RaspberryPi que debe estar conectada a la red. La ip la debemos sustituir por la que hayamos indicado en el paso 5.
 
-- El password por defecto para el usuario pi es raspberry.
+- El password por defecto para el usuario $USER es raspberry.
 
 - Ejecutamos `sudo raspi-config` para cambiar la configuración del sistema, como por ejemplo seleccionar un nuevo password.
 
@@ -91,7 +91,7 @@ Para poder instalar la aplicación debemos partir de una Raspberry Pi con Raspbe
 Los pasos para la instalación del SO vienen descritos en el apartado anterior.
 
 Primero debemos conectarnos vía ssh a la Raspberry con el siguiente comando:
-`ssh pi@192.168.1.99`
+`ssh $USER@192.168.1.99`
 
 Donde 192.168.1.99 debe ser sustituido por la ip estática que hayamos elegido en el proceso de configuración.
 
@@ -126,7 +126,6 @@ Este script creará las imágenes de los contenedores de docker y levantará los
 usuario por defecto tras instalación:
 user: fichajesPi000
 pass: fichajesPi000
-
 
 
 

@@ -1,5 +1,17 @@
  #!/bin/bash
-echo "#####################__Levantando contenedores__"
-export IP=$(ifconfig eth0 | awk '/inet /{print $2}' | cut -f2 -d':')
-docker-compose up -d
+ set -e
 
+ echo "#####################__Levantando contenedores__"
+ export IP=$(hostname -I | awk '{print $1}')
+
+ if [ -z "$IP" ]; then
+   echo "No se pudo obtener la IP local de la Raspberry Pi"
+   exit 1
+ fi
+
+ cd "$(dirname "$0")"
+ if docker compose version >/dev/null 2>&1; then
+   docker compose up -d
+ else
+   docker-compose up -d
+ fi
