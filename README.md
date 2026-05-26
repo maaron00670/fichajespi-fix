@@ -97,7 +97,7 @@ Donde 192.168.1.99 debe ser sustituido por la ip estática que hayamos elegido e
 
 A continuación comenzamos con la instalación mediante el siguiente comando:
 
-`curl -s https://raw.githubusercontent.com/alejandroferrin/fichajespi/main/setup | sudo bash`
+`curl -s https://raw.githubusercontent.com/maaron00670/fichajespi-fix/main/setup | sudo bash`
 
 El script realizará las siguientes acciones:
 
