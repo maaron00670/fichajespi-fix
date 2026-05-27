@@ -1,8 +1,7 @@
 services:
   db:
     container_name: fichajespi_db
-    image: mariadb:10.5
-    platform: linux/arm/v7
+    image: mariadb:11.4
     ports:
       - "3306:3306"
     environment:
@@ -10,7 +9,9 @@ services:
       - TZ=Europe/Madrid
       - MYSQL_DATABASE=db_fichajespi
       - MYSQL_USER=fichajes #Cambiar usuario si se desea
-      - MYSQL_PASSWORD=fichajes #Cambiar password si se desea
+      - MYSQL_PASSWORD=b93U5DA9M7NqjUHgbxQ0nh8T9 #Cambiar password si se desea
+    volumes:
+      - db_data:/var/lib/mysql
     restart: always
 
   backendserver:
@@ -21,12 +22,12 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/db_fichajespi
       - SPRING_DATASOURCE_USERNAME=fichajes #Usar mismo usuario que la base de datos
       - SPRING_DATASOURCE_PASSWORD=fichajes #Usar misma contraseña que la base de datos
-      - CLIENT_URL=http://$IP
+      - CLIENT_URL=http://192.168.0.113
       - SPRING_MAIL_HOST=smtp.mailtrap.io #poner dominio del servidor smtp
       - SPRING_MAIL_PORT=2525 #poner puerto del servidor smtp
-      - SPRING_MAIL_USERNAME=your-user-name #Nombre usuario servidor correos
-      - SPRING_MAIL_PASSWORD=your-password #Password servidor correos
-      - JWT_SECRET=your-secret-key #Secret key for JWT tokens
+      - SPRING_MAIL_USERNAME=maze #Nombre usuario servidor correos
+      - SPRING_MAIL_PASSWORD=b93U5DA9M7NqjUHgbxQ #Password servidor correos
+      - JWT_SECRET=b93U5DA9M7NqjUHg #Secret key for JWT tokens
     ports:
       - "8080:8080"
     links:
@@ -40,7 +41,7 @@ services:
     build:
       context: ./angular_fichajesPi/
       args:
-        - apiURL=http://$IP:8080
+        - apiURL=http://192.168.0.113:8080
     ports:
       - "80:80"
     environment:
@@ -49,8 +50,7 @@ services:
 
   phpmyadmin:
     container_name: fichajespi_dbadmin
-    image: linuxserver/phpmyadmin:latest
-    platform: linux/arm/v7
+    image: arm64v8/phpmyadmin:latest
     ports:
       - 81:80
     environment:
@@ -58,3 +58,5 @@ services:
       - PMA_HOST=db
     restart: always
 
+volumes:
+  db_data:
