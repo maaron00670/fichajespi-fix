@@ -9,7 +9,7 @@ services:
       - TZ=Europe/Madrid
       - MYSQL_DATABASE=db_fichajespi
       - MYSQL_USER=fichajes #Cambiar usuario si se desea
-      - MYSQL_PASSWORD=b93U5DA9M7NqjUHgbxQ0nh8T9 #Cambiar password si se desea
+      - MYSQL_PASSWORD= #Cambiar password si se desea
     volumes:
       - db_data:/var/lib/mysql
     restart: always
@@ -21,13 +21,13 @@ services:
       - TZ=Europe/Madrid
       - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/db_fichajespi
       - SPRING_DATASOURCE_USERNAME=fichajes #Usar mismo usuario que la base de datos
-      - SPRING_DATASOURCE_PASSWORD=fichajes #Usar misma contraseña que la base de datos
+      - SPRING_DATASOURCE_PASSWORD= #Usar misma contraseña que la base de datos
       - CLIENT_URL=http://192.168.0.113
       - SPRING_MAIL_HOST=smtp.mailtrap.io #poner dominio del servidor smtp
       - SPRING_MAIL_PORT=2525 #poner puerto del servidor smtp
       - SPRING_MAIL_USERNAME=maze #Nombre usuario servidor correos
-      - SPRING_MAIL_PASSWORD=b93U5DA9M7NqjUHgbxQ #Password servidor correos
-      - JWT_SECRET=b93U5DA9M7NqjUHg #Secret key for JWT tokens
+      - SPRING_MAIL_PASSWORD= #Password servidor correos
+      - JWT_SECRET= #Secret key for JWT tokens
     ports:
       - "8080:8080"
     links:
