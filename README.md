@@ -1,16 +1,3 @@
-![logo](resources/fichajesPi.png  "logo")
-
-
-[Demo de funcionamiento](https://youtu.be/SXFIXl85gbs) 
-
-[Videotutorial instalación](https://youtu.be/58yBoo8ru_I) 
-
-FichajesPi es una aplicación ideada para permitir cumplir una necesidad de las empresas: __registrar las horas de trabajo de sus empleados__.
-
-
-
-# Instalación
-
 ## Requisitos previos
 
 Los clientes interesados en montar un sistema de control de presencia mediante la implementación de FichajesPi en sus empresas deben contar con unos requisitos de hardware y software que pasaremos a enumerar:
@@ -37,11 +24,9 @@ Este lector soporta los protocolos: ISO 14443 Type A and B cards, MIFARE, FeliCa
 
 - __Monitor, teclado y ratón__ para la configuración inicial del sistema. Opcional. - si no se desea o no se puede hacer por conexión SSH -
 
-- __Red Local,__ para que los empleados puedan acceder a la aplicación web desde sus PC 's estos deben estar conectados a la misma red local que la Raspberry Pi.
-
 - __Servidor de correo electrónico.__ Para que la aplicación pueda enviar emails de notificación a los usuarios se debe contar con un servidor de correo electrónico SMTP para poder indicar a la aplicación parámetros como: host, puerto, username y password.
 
-- __Conexión a internet.__ La instalación se lleva a cabo descargando software desde internet por lo que para instalar Fichajes Pi se debe contar con conexión a internet, no así para su uso,  salvo que el servidor de correo electrónico no esté instalado localmente.
+- __Conexión a internet.__ La instalación se lleva a cabo descargando software desde internet por lo que para instalar Fichajes Pi se debe contar con conexión a internet
 
 ##Instalación de Raspberry Pi OS en la tarjeta micro SD:
 
@@ -51,36 +36,30 @@ Proceso de instalación desde linux:
 
 - Instalar Raspberry Pi Imager desde https://www.raspberrypi.com/software/
 
-- Ejecutar el programa y seleccionar ‘RASPBERRY PI OS (32-BIT)’ en el apartado ‘Operating System’. En ‘Storage’ seleccionar la tarjeta microSD.
+- Ejecutar el programa y seleccionar ‘RASPBERRY PI OS (32-BIT)’ instalarlo en la microSD y seguir las instrucciones del programa. - si se tiene epleado usar conexion por ssh selecionar la opcion en la instalación -
 
 - Pulsar ‘WRITE’ y esperar a que se complete el proceso.
 
-- Entrar en la carpeta ‘boot’ de la micro sd y crear un archivo llamado ssh. Esto sirve para que se active la conexión remota por ssh.
-
 - Fijar una IP estática. Editamos con permisos de super usuario el archivo `/etc/dhcpcd.conf` de la tarjeta microSD.
 
-Descomentamos las siguientes líneas e introducimos los parámetros adecuados a nuestra red:
+Un ejemplo de configuración (en este caso por cable ethernet):
 
 ```
-#Example static IP configuration:
-#interface eth0
-#static ip_address=192.168.0.10/24
-#static ip6_address=fd51:42f8:caae:d92e::ff/64
-#static routers=192.168.0.1
-#static domain_name_servers=192.168.0.1 8.8.8.8
+interface eth0
+static ip_address=192.168.0.10/24
+static routers=192.168.0.1
+static domain_name_servers=1.1.1.1 8.8.8.8
 ```
 
 - Introducimos la microSD en la RaspberryPi y la encendemos.
 
-- Escribimos en la terminal `ssh $USER@192.168.0.10` para conectarnos remotamente a la RaspberryPi que debe estar conectada a la red. La ip la debemos sustituir por la que hayamos indicado en el paso 5.
+- Escribimos en la terminal `ssh $USER@192.168.0.10` para conectarnos remotamente a la RaspberryPi que debe estar conectada a la red. La ip la debemos sustituir por la que hayamos indicado
 
-- El password por defecto para el usuario $USER es raspberry.
-
-- Ejecutamos `sudo raspi-config` para cambiar la configuración del sistema, como por ejemplo seleccionar un nuevo password.
+- Ejecutamos `sudo raspi-config` para cambiar la configuración del sistema,por ejemplo cambiar la contrasela, si la pantalla no se detecta se puede arreglar desde aqui...
 
 - Tras seguir estos pasos ya estaríamos listos para seguir las instrucciones de instalación de FichajesPi.
 
-## Instalación en el servidor
+## Instalación del prorgama
 
 FichajesPi está pensado para ser instalado en una Raspberry Pi, este hecho estandariza su despliegue ya que permite construir un script que automatice la instalación de dependencias y empaquetado de la aplicación.
 
@@ -97,36 +76,19 @@ Donde 192.168.1.99 debe ser sustituido por la ip estática que hayamos elegido e
 
 A continuación comenzamos con la instalación mediante el siguiente comando:
 
-`curl -s https://raw.githubusercontent.com/maaron00670/fichajespi-fix/main/setup | sudo bash`
+`curl -s https://raw.githubusercontent.com/maaron00670/fichajespi-fix/RPI-Files/setup-rpi | sudo bash`
 
 El script realizará las siguientes acciones:
 
-- Crea carpeta para almacenar el volumen del contenedor Docker de la BD.
-- Actualiza el sistema.
-- Clona el repositorio.
-- Instala JDK.
-- Instala dependencias del lector de tarjetas NFC.
-- Instala Docker y Docker-Compose.
-- Instala Vim y VNC.
-- Empaqueta la app de escritorio y configurar el arranque de la misma al iniciar el sistema.
-- Configura el servicio pcscd que activa el lector de tarjetas.
-- Instala Drivers de la pantalla táctil.
+- Instalara SmartCard Reader
+- Drivers necesarios
+- Vnc
+- Compilara la aplicacion
+- Configurara los servicios pcscd
 
 Tras la ejecución de este primer lote de acciones se reiniciará el dispositivo.
 
-Cuando se haya vuelto a iniciar el sistema nos volvemos a conectar mediante ssh para __ejecutar el script ‘setup_app’__ que se encuentra en la carpeta del repositorio.
-
-__Antes de ejecutar este último paso podemos personalizar ciertos parámetros del sistema como son: usuario y contraseñas de base de datos, parámetros del servidor smtp y secret key del token JWT.__
-
-Para modificar los parámetros por defecto debemos abrir el archivo ‘docker-compose.yml’ y fijarnos en los comentarios de las líneas que podemos modificar.
-
-Este script creará las imágenes de los contenedores de docker y levantará los mismos mediante el uso de docker-compose.
-
-
-usuario por defecto tras instalación:
-user: fichajesPi000
-pass: fichajesPi000
-
+AL iniciar el sistema se devera abrir al poco tiempo el programa.  - 10 o 15 segundo como mucho - 
 
 
 
