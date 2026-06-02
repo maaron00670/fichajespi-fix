@@ -17,12 +17,6 @@ git clone https://github.com/maaron00670/fichajespi-fix.git "$REPO_DIR"
 echo "#####################__Instalando JDK mas actual en el repositorio__"
 sudo apt -y install openjdk-17-jdk
 
-echo "#####################__Instalando SmartCard Reader__"
-sudo apt-get -y install subversion autoconf debhelper flex libusb-dev libpcsclite-dev libpcsclite1 libccid pcscd pcsc-tools libpcsc-perl libusb-1.0-0-dev libtool libssl-dev cmake checkinstall
-
-echo "#####################__Instalando ACS driver__"
-sudo dpkg -i "$REPO_DIR/DriverACS/libacsccid1_1.1.8-1~bpo10+1_armhf.deb"
-
 echo "#####################__Instalando Docker__"
 sudo apt install docker.io -y
 echo "#####################__Activando Docker__"
@@ -40,32 +34,5 @@ sudo apt -y install docker-compose-plugin docker-compose
 
 echo "#####################__Instalando vim__"
 sudo apt -y install vim
-echo "#####################__Instalando vnc__"
-sudo apt -y install realvnc-vnc-server realvnc-vnc-viewer
 
-echo "#####################__Compilando app de escritorio__"
-sudo apt -y install maven
-cd "$REPO_DIR/fichajesPi_desktop"
-mvn clean package
-
-echo "#####################__Configurando servicio pcscd__"
-if [ -f /etc/rc.local ]; then
-  sudo sed -i '$d' /etc/rc.local
-else
-  echo "#!/bin/sh -e" | sudo tee /etc/rc.local >/dev/null
-fi
-echo "sudo systemctl start pcscd" | sudo tee -a /etc/rc.local >/dev/null
-echo "exit 0" | sudo tee -a /etc/rc.local >/dev/null
-sudo chmod +x /etc/rc.local
-
-sudo cp "$REPO_DIR/fichajespi.desktop" /etc/xdg/autostart/
-
-echo "#####################__Instalando drivers pantalla táctil 3.5__"
-cd "$REPO_DIR"
-git clone https://github.com/goodtft/LCD-show.git
-chmod -R 755 LCD-show
-cd LCD-show/
-sudo ./LCD35-show
-
-echo "#####################__Reinicio necesario__"
-echo "#####################__Ahora apaga la raspberry, instala la pantalla táctil y vuelve a encenderla__"
+echo "#####################__Listo__"
