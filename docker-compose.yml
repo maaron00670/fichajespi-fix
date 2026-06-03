@@ -27,7 +27,7 @@ services:
       - db
 
   frontend:
-    image: fichajespi_front:latest
+    image: fichajespi_front:latest # puede usar mi imagen o construir la suya
     ports:
       - "80:80"
     environment:
@@ -37,16 +37,16 @@ services:
       - backend
 
   backend:
-    image: fichajespi_back:latest
+    image: fichajespi_back:latest # puede usar mi imagen o construir la suya
     
     environment:
       - TZ=Europe/Madrid
 
       - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/db_fichajespi
-      - SPRING_DATASOURCE_USERNAME=fichajes
+      - SPRING_DATASOURCE_USERNAME=fichajes #puede cambiar el usuario
       - SPRING_DATASOURCE_PASSWORD= #añadir contraseña 
 
-      # Ajusta esto según cómo lo use tu backend 
+      # Ajustar correo según cómo lo use tu backend 
       - CLIENT_URL=http://localhost
 
       - SPRING_MAIL_HOST= #puedes añadir propio
