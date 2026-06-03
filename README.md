@@ -24,16 +24,16 @@ El script realizará las siguientes acciones:
 - Clona el repositorio
 
 
-Tras la ejecución de este primer lote de acciones se reiniciará el dispositivo.
-
-Cuando se haya vuelto a iniciar el sistema nos volvemos a conectar mediante ssh para __ejecutar el script ‘setup_app’__ que se encuentra en la carpeta del repositorio.
 
 __Antes de ejecutar este último paso podemos personalizar ciertos parámetros del sistema como son: usuario y contraseñas de base de datos, parámetros del servidor smtp y secret key del token JWT.__
 
 Para modificar los parámetros por defecto debemos abrir el archivo ‘docker-compose.yml’ y fijarnos en los comentarios de las líneas que podemos modificar.
 
-Este script creará las imágenes de los contenedores de docker y levantará los mismos mediante el uso de docker-compose.
+El docker cuenta ya con imagene precreadas pero se recomienda crear las suyas propias.
 
+Una vez instalado todo solo se debe levantar el ‘docker-compose.yml’ con
+
+`docker compose docker-compose.yml up`
 
 usuario por defecto tras instalación:
 user: fichajesPi000
