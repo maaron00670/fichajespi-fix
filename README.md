@@ -82,6 +82,7 @@ El script realizará las siguientes acciones:
 
 - Instalara SmartCard Reader
 - Drivers necesarios
+- Instalra jdk
 - Vnc
 - Compilara la aplicacion
 - Configurara los servicios pcscd
