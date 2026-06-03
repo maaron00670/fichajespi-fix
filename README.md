@@ -28,7 +28,7 @@ Este lector soporta los protocolos: ISO 14443 Type A and B cards, MIFARE, FeliCa
 
 - __Conexión a internet.__ La instalación se lleva a cabo descargando software desde internet por lo que para instalar Fichajes Pi se debe contar con conexión a internet
 
-##Instalación de Raspberry Pi OS en la tarjeta micro SD:
+## Instalación de Raspberry Pi OS en la tarjeta micro SD:
 
 Este sistema operativo basado en Debian es el escogido para servir de host a la aplicación, ya que, cuenta con una amplio soporte y es muy sencillo encontrar documentación que nos ayude en caso de aparecer errores o querer personalizar configuraciones.
 
