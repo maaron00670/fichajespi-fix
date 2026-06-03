@@ -7,8 +7,9 @@ Se puede fichar tanto por pagina web como con tarjeta fisica
 
 # Instalación
 
-FichajesPi está pensado para ser instalado en una Raspberry Pi y poder usarse tambien por web
-En esta rama se encuentra lo necesario para la parte de servidor, todo lo necesario para la raspberry esta en su rama correspondiente.
+FichajesPi está pensado para ser instalado en una Raspberry Pi y poder usarse tambien por web.
+
+En esta rama se encuentra lo necesario para la parte de servidor, todo lo necesario para la raspberry esta en su rama correspondiente __RPI-Files__ .
 
 ## Instalación en el servidor
 
