@@ -8,9 +8,11 @@ sudo apt-get -y install subversion autoconf debhelper flex libusb-dev libpcsclit
 echo "#####################__Instalando ACS driver__"
 sudo dpkg -i "$REPO_DIR/DriverACS/libacsccid1_1.1.8-1~bpo10+1_armhf.deb"
 
-
 echo "#####################__Instalando vnc__"
 sudo apt -y install realvnc-vnc-server realvnc-vnc-viewer
+
+echo "#####################__Clonando repositorio__"
+https://github.com/maaron00670/fichajespi-fix.git
 
 echo "#####################__Compilando app de escritorio__"
 sudo apt -y install maven
