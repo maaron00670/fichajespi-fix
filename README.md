@@ -80,7 +80,7 @@ A continuación comenzamos con la instalación mediante el siguiente comando:
 
 El script realizará las siguientes acciones:
 
-- Actualizar el sistema (en caso de no querer hacerlo quitelo usted del script , pero se avisa que no esta pensado para ello )
+- Actualizar el sistema
 - Instalara SmartCard Reader
 - Drivers necesarios
 - Instalra jdk
