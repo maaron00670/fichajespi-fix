@@ -1,4 +1,6 @@
 echo "#####################__Instalando todo lo necesario para la RPI__"
+echo "#####################__Instalando JDK mas actual en el repositorio__"
+sudo apt -y install openjdk-17-jdk
 
 echo "#####################__Instalando SmartCard Reader__"
 sudo apt-get -y install subversion autoconf debhelper flex libusb-dev libpcsclite-dev libpcsclite1 libccid pcscd pcsc-tools libpcsc-perl libusb-1.0-0-dev libtool libssl-dev cmake checkinstall
