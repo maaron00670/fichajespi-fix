@@ -1,6 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=FichajesPi_Desktop
-Exec=sh -lc 'exec java -jar "$HOME/fichajespi-fix/fichajesPi_desktop/target/fichajespi-desktp-jar-with-dependencies.jar"'
-Terminal=false
-X-GNOME-Autostart-enabled=true
