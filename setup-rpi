@@ -12,7 +12,7 @@ echo "#####################__Instalando vnc__"
 sudo apt -y install realvnc-vnc-server realvnc-vnc-viewer
 
 echo "#####################__Clonando repositorio__"
-https://github.com/maaron00670/fichajespi-fix.git
+git clone https://github.com/maaron00670/fichajespi-fix.git
 
 echo "#####################__Compilando app de escritorio__"
 sudo apt -y install maven
