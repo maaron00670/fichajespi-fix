@@ -32,7 +32,4 @@ echo \
 sudo apt update
 sudo apt -y install docker-compose-plugin docker-compose
 
-echo "#####################__Instalando vim__"
-sudo apt -y install vim
-
 echo "#####################__Listo__"
