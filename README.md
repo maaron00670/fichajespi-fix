@@ -28,6 +28,7 @@ El script realizará las siguientes acciones:
 __Antes de ejecutar este último paso podemos personalizar ciertos parámetros del sistema como son: usuario y contraseñas de base de datos, parámetros del servidor smtp y secret key del token JWT.__
 
 Para modificar los parámetros por defecto debemos abrir el archivo ‘docker-compose.yml’ y fijarnos en los comentarios de las líneas que podemos modificar.
+Tambien se deberia revisar el archivo 'nginx.conf' ya que este incluye un proxy para el acceso a las concexiones no locales y puede necesitar alguna modificacion segun tus requerimientos. 
 
 El docker cuenta ya con imagene precreadas pero se recomienda crear las suyas propias.
 
@@ -35,7 +36,7 @@ Una vez instalado todo solo se debe levantar el ‘docker-compose.yml’ con
 
 `docker compose docker-compose.yml up`
 
-usuario por defecto tras instalación:
+usuario frontend por defecto tras instalación:
 user: fichajesPi000
 pass: fichajesPi000
 
