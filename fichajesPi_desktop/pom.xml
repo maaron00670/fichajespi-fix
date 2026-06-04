@@ -14,43 +14,31 @@
     <javafx.version>17.0.2</javafx.version>
   </properties>
 
-  <profiles>
-    <profile>
-      <id>linux-arm</id>
-      <activation>
-        <activeByDefault>true</activeByDefault>
-      </activation>
-      <properties>
-        <javafx.platform>linux</javafx.platform>
-      </properties>
-    </profile>
-  </profiles>
-
   <dependencies>
-    <!-- JavaFX Dependencies -->
+    <!-- JavaFX Dependencies (Hardcoded for Linux/Raspberry Pi) -->
     <dependency>
       <groupId>org.openjfx</groupId>
       <artifactId>javafx-controls</artifactId>
       <version>${javafx.version}</version>
-      <classifier>${javafx.platform}</classifier>
+      <classifier>linux</classifier>
     </dependency>
     <dependency>
       <groupId>org.openjfx</groupId>
       <artifactId>javafx-web</artifactId>
       <version>${javafx.version}</version>
-      <classifier>${javafx.platform}</classifier>
+      <classifier>linux</classifier>
     </dependency>
     <dependency>
       <groupId>org.openjfx</groupId>
       <artifactId>javafx-swing</artifactId>
       <version>${javafx.version}</version>
-      <classifier>${javafx.platform}</classifier>
+      <classifier>linux</classifier>
     </dependency>
     <dependency>
       <groupId>org.openjfx</groupId>
       <artifactId>javafx-graphics</artifactId>
       <version>${javafx.version}</version>
-      <classifier>${javafx.platform}</classifier>
+      <classifier>linux</classifier>
     </dependency>
     <!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
     <dependency>
@@ -92,13 +80,6 @@
 
   </dependencies>
   <build>
-    <extensions>
-      <extension>
-        <groupId>kr.motd.maven</groupId>
-        <artifactId>os-maven-plugin</artifactId>
-        <version>1.7.0</version>
-      </extension>
-    </extensions>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
