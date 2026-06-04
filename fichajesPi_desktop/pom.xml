@@ -7,46 +7,52 @@
   <artifactId>fichajesPi_desktop</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
+
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
     <javafx.version>17.0.2</javafx.version>
-    <!-- Forzamos la plataforma a linux para la Raspberry Pi -->
     <javafx.platform>linux</javafx.platform>
   </properties>
 
   <dependencies>
-    <!-- JavaFX Dependencies -->
+    <!-- JavaFX Dependencies con clasificador FORZADO a linux -->
     <dependency>
       <groupId>org.openjfx</groupId>
       <artifactId>javafx-controls</artifactId>
       <version>${javafx.version}</version>
+      <classifier>linux</classifier>
     </dependency>
     <dependency>
       <groupId>org.openjfx</groupId>
       <artifactId>javafx-graphics</artifactId>
       <version>${javafx.version}</version>
+      <classifier>linux</classifier>
     </dependency>
     <dependency>
       <groupId>org.openjfx</groupId>
       <artifactId>javafx-base</artifactId>
       <version>${javafx.version}</version>
+      <classifier>linux</classifier>
     </dependency>
     <dependency>
       <groupId>org.openjfx</groupId>
       <artifactId>javafx-web</artifactId>
       <version>${javafx.version}</version>
+      <classifier>linux</classifier>
     </dependency>
     <dependency>
       <groupId>org.openjfx</groupId>
       <artifactId>javafx-swing</artifactId>
       <version>${javafx.version}</version>
+      <classifier>linux</classifier>
     </dependency>
     <dependency>
       <groupId>org.openjfx</groupId>
       <artifactId>javafx-media</artifactId>
       <version>${javafx.version}</version>
+      <classifier>linux</classifier>
     </dependency>
 
     <!-- Otras dependencias -->
