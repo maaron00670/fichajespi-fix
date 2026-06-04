@@ -73,6 +73,7 @@
     </dependencies>
 
     <build>
+        <finalName>fichajespi-desktp</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -100,7 +101,6 @@
                     <descriptorRefs>
                         <descriptorRef>jar-with-dependencies</descriptorRef>
                     </descriptorRefs>
-                    <finalName>fichajespi-desktp</finalName>
                     <archive>
                         <manifest>
                             <mainClass>com.fichajespi.fichajespidestopapp.MainWindow</mainClass>
