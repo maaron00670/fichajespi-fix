@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FichajesPi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #0d0d0f;
+      width: 480px;
+      height: 320px;
+      overflow: hidden;
+      color: #fff;
+      position: relative;
+    }
+
+    .bg-glow {
+      position: absolute;
+      width: 300px; height: 300px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(99,102,241,0.18) 0%, transparent 70%);
+      top: -80px; left: -60px;
+      pointer-events: none;
+    }
+    .bg-glow2 {
+      position: absolute;
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(20,184,166,0.13) 0%, transparent 70%);
+      bottom: -40px; right: 40px;
+      pointer-events: none;
+    }
+
+    .screen {
+      position: relative;
+      width: 480px;
+      height: 320px;
+      display: flex;
+      flex-direction: column;
+      padding: 18px 24px 14px;
+      z-index: 1;
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 10px;
+    }
+
+    .brand {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+    }
+
+    .status-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: #14b8a6;
+      box-shadow: 0 0 8px #14b8a6;
+      animation: pulse 2s infinite;
+      margin-top: 4px;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    .main-content {
+      display: flex;
+      flex: 1;
+      gap: 20px;
+      align-items: stretch;
+    }
+
+    .left-panel {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .time-block {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .time-display {
+      font-family: 'DM Mono', monospace;
+      font-size: 56px;
+      font-weight: 400;
+      letter-spacing: -2px;
+      line-height: 1;
+      color: #fff;
+      text-shadow: 0 0 40px rgba(99,102,241,0.4);
+    }
+
+    .date-display {
+      font-size: 13px;
+      font-weight: 400;
+      color: rgba(255,255,255,0.45);
+      letter-spacing: 0.04em;
+      text-transform: capitalize;
+    }
+
+    .employee-block {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .employee-name {
+      font-size: 22px;
+      font-weight: 500;
+      color: #fff;
+      line-height: 1.1;
+    }
+
+    .employee-id {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: rgba(255,255,255,0.3);
+      letter-spacing: 0.1em;
+    }
+
+    .right-panel {
+      width: 140px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    .card-area {
+      width: 100%;
+      border: 1px dashed rgba(255,255,255,0.12);
+      border-radius: 12px;
+      padding: 14px 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      background: rgba(255,255,255,0.03);
+    }
+
+    .card-icon {
+      width: 36px; height: 26px;
+      border: 1.5px solid rgba(255,255,255,0.25);
+      border-radius: 5px;
+      position: relative;
+      background: rgba(255,255,255,0.05);
+    }
+    .card-icon::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 7px;
+      width: 100%; height: 5px;
+      background: rgba(255,255,255,0.15);
+    }
+
+    .scan-line {
+      position: absolute;
+      width: 90%; height: 1px;
+      background: linear-gradient(90deg, transparent, #6366f1, transparent);
+      animation: scan 2.5s linear infinite;
+      opacity: 0;
+    }
+
+    .card-hint {
+      font-size: 9.5px;
+      color: rgba(255,255,255,0.3);
+      text-align: center;
+      letter-spacing: 0.06em;
+      line-height: 1.4;
+      text-transform: uppercase;
+    }
+
+    @keyframes scan {
+      0%   { top: 10%; opacity: 0; }
+      15%  { opacity: 1; }
+      85%  { opacity: 1; }
+      100% { top: 90%; opacity: 0; }
+    }
+
+    .bottom-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .status-pill {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(20,184,166,0.12);
+      border: 1px solid rgba(20,184,166,0.25);
+      border-radius: 20px;
+      padding: 4px 10px;
+      font-size: 11px;
+      font-weight: 500;
+      color: #5eead4;
+      letter-spacing: 0.04em;
+    }
+    .status-pill.entrada { background: rgba(99,102,241,0.12); border-color: rgba(99,102,241,0.3); color: #a5b4fc; }
+    .status-pill.salida  { background: rgba(251,146,60,0.12);  border-color: rgba(251,146,60,0.25);  color: #fdba74; }
+
+    .last-action {
+      font-size: 10px;
+      color: rgba(255,255,255,0.2);
+      font-family: 'DM Mono', monospace;
+      letter-spacing: 0.05em;
+    }
+
+    .divider-v {
+      width: 1px;
+      background: rgba(255,255,255,0.07);
+      align-self: stretch;
+      margin: 4px 0;
+    }
+
+    /* Estados */
+    .state-waiting .employee-name { color: rgba(255,255,255,0.25); font-weight: 300; font-style: italic; }
+    .state-waiting .employee-id   { display: none; }
+
+    .state-fichado .scan-line { display: none; }
+    .state-fichado .card-area {
+      border-color: rgba(99,102,241,0.4);
+      background: rgba(99,102,241,0.07);
+    }
+  </style>
+</head>
+<body>
+
+<div class="bg-glow"></div>
+<div class="bg-glow2"></div>
+
+<div class="screen state-waiting" id="screen">
+
+  <div class="top-bar">
+    <span class="brand">FichajesPi</span>
+    <div class="status-dot"></div>
+  </div>
+
+  <div class="main-content">
+    <div class="left-panel">
+      <div class="time-block">
+        <div class="time-display" id="clock">00:00</div>
+        <div class="date-display" id="dateLabel">cargando...</div>
+      </div>
+      <div class="employee-block">
+        <div class="employee-name" id="empName">Esperando...</div>
+        <div class="employee-id" id="empId"></div>
+      </div>
+    </div>
+
+    <div class="divider-v"></div>
+
+    <div class="right-panel">
+      <div class="card-area" id="cardArea">
+        <div class="scan-line"></div>
+        <div class="card-icon"></div>
+        <div class="card-hint">Acerque su<br>tarjeta</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-bar">
+    <div class="status-pill" id="statusPill">
+      <div class="status-dot" style="width:5px;height:5px;box-shadow:none;"></div>
+      Listo
+    </div>
+    <div class="last-action" id="lastAction">—</div>
+  </div>
+</div>
+
+<script>
+  function pad(n) { return String(n).padStart(2, '0'); }
+
+  function updateClock() {
+    const now = new Date();
+    document.getElementById('clock').textContent =
+      pad(now.getHours()) + ':' + pad(now.getMinutes());
+    const dias   = ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
+    const meses  = ['enero','febrero','marzo','abril','mayo','junio','julio',
+                    'agosto','septiembre','octubre','noviembre','diciembre'];
+    document.getElementById('dateLabel').textContent =
+      dias[now.getDay()] + ', ' + now.getDate() + ' de ' + meses[now.getMonth()];
+  }
+  updateClock();
+  setInterval(updateClock, 1000);
+
+  /**
+   * Llama a esta función desde tu CardReader cuando se lea una tarjeta.
+   *
+   * @param {string} nombre   - Nombre completo del empleado
+   * @param {string} id       - Número/código de empleado
+   * @param {string} tipo     - 'entrada' | 'salida'
+   */
+  function mostrarFichaje(nombre, id, tipo) {
+    const screen = document.getElementById('screen');
+    screen.classList.remove('state-waiting');
+    screen.classList.add('state-fichado');
+
+    document.getElementById('empName').textContent = nombre;
+    document.getElementById('empId').textContent = 'EMP · ' + id;
+
+    const pill = document.getElementById('statusPill');
+    const dotColor = tipo === 'entrada' ? '#a5b4fc' : '#fdba74';
+    const label    = tipo === 'entrada' ? 'Entrada registrada' : 'Salida registrada';
+    pill.className = 'status-pill ' + tipo;
+    pill.innerHTML = `<div style="width:5px;height:5px;border-radius:50%;background:${dotColor};"></div> ${label}`;
+
+    const now = new Date();
+    document.getElementById('lastAction').textContent =
+      pad(now.getHours()) + ':' + pad(now.getMinutes()) + ':' + pad(now.getSeconds());
+
+    // Volver al estado de espera tras 5 segundos
+    setTimeout(resetScreen, 5000);
+  }
+
+  function resetScreen() {
+    const screen = document.getElementById('screen');
+    screen.classList.remove('state-fichado');
+    screen.classList.add('state-waiting');
+
+    document.getElementById('empName').textContent = 'Esperando...';
+    document.getElementById('empId').textContent = '';
+
+    const pill = document.getElementById('statusPill');
+    pill.className = 'status-pill';
+    pill.innerHTML = '<div style="width:5px;height:5px;border-radius:50%;background:#5eead4;box-shadow:none;\"></div> Listo';
+  }
+</script>
+
+</body>
+</html>

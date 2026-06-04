@@ -40,54 +40,40 @@ public class CardReader extends Thread {
   @Override
   public void run() {
     while (true) {
-
       try {
-        // Display the list of terminals
         TerminalFactory factory = TerminalFactory.getDefault();
         List<CardTerminal> terminals = factory.terminals().list();
-        //System.out.println("Terminals: " + terminals);
 
-        // Use the first terminal
+        if (terminals.isEmpty()) {
+          Thread.sleep(1000);
+          continue;
+        }
+
         CardTerminal terminal = terminals.get(0);
 
-        // Connect wit hthe card
         if (terminal.isCardPresent()) {
-
-          
-          //Simulamos un click de ratón para despertar la pantalla si se ha apagado
           Robot robot = new Robot();
           robot.mousePress(InputEvent.BUTTON1_MASK);
           robot.mouseRelease(InputEvent.BUTTON1_MASK);
 
           Card card = terminal.connect("*");
-          //System.out.println("Card: " + card);
           CardChannel channel = card.getBasicChannel();
 
-          // Send test command
           ResponseAPDU response = channel.transmit(new CommandAPDU(new byte[]{
-            (byte) 0xFF,
-            (byte) 0xCA,
-            (byte) 0x00,
-            (byte) 0x00,
-            (byte) 0x00}));
-          //System.out.println("Response: " + response.toString());
+            (byte) 0xFF, (byte) 0xCA, (byte) 0x00, (byte) 0x00, (byte) 0x00}));
 
-          if (response.getSW1() == 0x63 && response.getSW2() == 0x00) {
-            //System.out.println("Failed");
-          } else {
-            //System.out.println("UID: " + bin2hex(response.getData()));
+          if (response.getSW1() != 0x63 || response.getSW2() != 0x00) {
             BigInteger decimal = new BigInteger(bin2hex(response.getData()), 16);
-            System.out.println(decimal);
+            System.out.println("UID leída: " + decimal);
             fichar(decimal.toString());
-            // Disconnect the card
             card.disconnect(false);
           }
-
         }
+        
+        Thread.sleep(500); // Pequeña pausa para no saturar la CPU
 
       } catch (Exception e) {
-        //System.out.println("Ouch: " + e.toString());
-
+        try { Thread.sleep(1000); } catch (InterruptedException ex) {}
       }
     }
   }
@@ -96,24 +82,12 @@ public class CardReader extends Thread {
     Fichaje fichaje = rs.sendRequest(number);
     if (fichaje != null) {
       System.out.println("Fichaje OK");
-      instance.changeNumero(number);
-      instance.changeNombre(fichaje.getNombreUsuario());
-      StringBuilder builder = new StringBuilder();
-      builder.append("Hora de ");
-      builder.append(fichaje.getTipo());
-      builder.append(": ");
-      //DateTimeFormatter formatterIn = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-      //LocalDateTime dateTime = LocalDateTime.parse(fichaje.getTime(), formatterIn);
-      LocalTime dateTime = LocalTime.parse(fichaje.getHora());
-      DateTimeFormatter formatterOut = DateTimeFormatter.ofPattern("HH:mm:ss");
-      builder.append(dateTime.format(formatterOut));
-      instance.changeFichaje(builder.toString());
-
-      CardReader.sleep(3000);
-    } else {
-      instance.changeNumero(number + " no existe");
+      String tipo = (fichaje.getTipo() != null) ? fichaje.getTipo().toLowerCase() : "entrada";
+      instance.showFichaje(fichaje.getNombreUsuario(), number, tipo);
       CardReader.sleep(5000);
-
+    } else {
+      instance.showFichaje("Error: No encontrado", number, "desconocido");
+      CardReader.sleep(5000);
     }
 
     instance.resetScreen();
