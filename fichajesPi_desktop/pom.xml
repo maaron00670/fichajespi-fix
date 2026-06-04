@@ -13,6 +13,19 @@
     <maven.compiler.target>17</maven.compiler.target>
     <javafx.version>17.0.2</javafx.version>
   </properties>
+
+  <profiles>
+    <profile>
+      <id>linux-arm</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <properties>
+        <javafx.platform>linux</javafx.platform>
+      </properties>
+    </profile>
+  </profiles>
+
   <dependencies>
     <!-- JavaFX Dependencies -->
     <dependency>
