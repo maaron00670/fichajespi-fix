@@ -59,32 +59,18 @@ public class MainWindow extends JFrame {
         });
     }
 
-    public void changeTime(String hora) {
-        // Handled by JS in HTML
-    }
-
-    public void changeDate(String date) {
-        // Handled by JS in HTML
-    }
-
-    public void changeNombre(String nombre) {
-        // Will be called by showFichaje integration
-    }
-
-    public void changeFichaje(String fichaje) {
-        // Will be called by showFichaje integration
-    }
-
-    public void changeNumero(String numero) {
-        // Will be called by showFichaje integration
-    }
-
+    /**
+     * Envía los datos del fichaje a la interfaz HTML.
+     */
     public void showFichaje(String nombre, String id, String tipo) {
         Platform.runLater(() -> {
             webEngine.executeScript(String.format("mostrarFichaje('%s', '%s', '%s')", nombre, id, tipo));
         });
     }
 
+    /**
+     * Resetea la interfaz HTML al estado de espera.
+     */
     public void resetScreen() {
         Platform.runLater(() -> {
             webEngine.executeScript("resetScreen()");
